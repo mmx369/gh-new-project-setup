@@ -16,19 +16,44 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci
       - name: Run Tests
+        id: run-tests
         run: npm test
       - name: Upload test report
+        if: failure() && steps.run-tests.outcome == 'failure'
         uses: actions/upload-artifact@v3
         with:
           name: test-report
           path: test.json
-
-  report:
+  build:
     needs: test
-    if: failure()
     runs-on: ubuntu-latest
     steps:
-      - name: Output information
-        run: |
-          echo "Something went wrong"
-          echo ${{ toJSON(github) }}
+      - name: Get code
+        uses: actions/checkout@v3
+      - name: Cache dependencies
+        id: cache
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
+      - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm ci
+      - name: Build website
+        id: build-website
+        run: npm run build
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-files
+          path: build
+
+  # report:
+  #   needs: test
+  #   if: failure()
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Output information
+  #       run: |
+  #         echo "Something went wrong"
+  #         echo ${{ toJSON(github) }}
