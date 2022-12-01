@@ -1,4 +1,4 @@
-name: Deploy Project
+name: Push Brunch
 on: [push, workflow_dispatch]
 jobs:
   test:

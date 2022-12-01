@@ -1,5 +1,8 @@
-name: Test Build and Deploy (main)
+name: Build and Upload to Heroku (main)
 on:
+  push:
+    branches:
+      - main
   pull_request:
     types: closed
     branches:
