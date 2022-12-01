@@ -1,5 +1,8 @@
 name: Push Brunch
-# on: [push, workflow_dispatch]
+on:
+  push:
+    branches-ignore:
+      - main
 jobs:
   test:
     runs-on: ubuntu-latest
