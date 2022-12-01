@@ -5,7 +5,7 @@ on:
   pull_request:
     branches: [main]
 jobs:
-  Frontend Unit Tests:
+  tests:
     runs-on: ubuntu-latest
     steps:
       - name: Get code
@@ -28,7 +28,7 @@ jobs:
         with:
           name: test-report
           path: test-report.html
-  Frontend Build:
+  build:
     needs: test
     runs-on: ubuntu-latest
     steps:
