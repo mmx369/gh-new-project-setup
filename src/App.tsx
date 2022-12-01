@@ -2,7 +2,7 @@ const App = () => {
   return (
     <div>
       <header>
-        <h1>GitHub Actions - TEST!!!!! BRANCH</h1>
+        <h1>GitHub Actions</h1>
       </header>
     </div>
   )
