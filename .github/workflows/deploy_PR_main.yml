@@ -1,15 +1,11 @@
 name: Build and Upload to Heroku (main)
 on:
   push:
-    branches:
-      - main
-  # pull_request:
-  #   types: closed
-  #   branches:
-  #     - main
+    branches: [main]
+  pull_request:
+    branches: [main]
 jobs:
   test:
-    # if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
       - name: Get code
