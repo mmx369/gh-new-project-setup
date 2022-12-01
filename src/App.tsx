@@ -2,7 +2,7 @@ const App = () => {
   return (
     <div>
       <header>
-        <h1>GitHub Actions! - another brunch</h1>
+        <h1>GitHub Actions! - XXX</h1>
       </header>
     </div>
   )
