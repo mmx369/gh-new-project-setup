@@ -1,9 +1,11 @@
 name: Build and Deploy to Heroku (main)
-run-name: ${{ github.actor }} !!!!
+run-name: Deploy to ${{ inputs.deploy_target }} by @${{ github.actor }}
 on:
-  push:
-    branches: [main]
+  workflow_dispatch:
   pull_request:
+    types: [opened, synchronize, reopened, closed]
+    branches: [main]
+  push:
     branches: [main]
 jobs:
   tests:
@@ -51,15 +53,16 @@ jobs:
         with:
           name: build-files
           path: build
-  # deploy:
-  #   needs: build
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Get code
-  #       uses: actions/checkout@v3
-  #     - name: Upload files to Heroku
-  #       uses: akhileshns/heroku-deploy@v3.12.12
-  #       with:
-  #         heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-  #         heroku_app_name: 'test-gh-2022'
-  #         heroku_email: 'maks66@ngs.ru'
+  deploy:
+    needs: build
+    if: github.event.pull_request.merged == true && github.repository == 'main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v3
+      - name: Upload files to Heroku
+        uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: 'test-gh-2022'
+          heroku_email: 'maks66@ngs.ru'
