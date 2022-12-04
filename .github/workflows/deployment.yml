@@ -55,7 +55,7 @@ jobs:
           path: build
   deploy:
     needs: build
-    if: github.event.pull_request.merged == true && github.repository == 'main'
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
       - name: Get code
